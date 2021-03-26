@@ -156,13 +156,49 @@ const guessedStones = [
 
 class Home extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            stones: [...stones],
+            guessedStones: [],
+        }
+    }
+
+    onPress_StonePit = (stone) => {
+        console.log('stone pit e basıldı', stone);
+
+        let stonesInState = this.state.stones;
+        let guessedStonesInState = this.state.guessedStones;
+
+        // State'teki taşlardan ilgili taşı çıkar
+        let stoneIndex = stonesInState.indexOf(stone);
+        let emptyStonePitComponent = (
+            <StonePit 
+                stone={null}
+                onPress_StonePit={()=>{}}
+            />
+        )
+        stonesInState.splice(stoneIndex, 1, emptyStonePitComponent);
+
+        // Add stone to guessed stones
+        guessedStonesInState.push(stone);
+
+        this.setState({
+            stones: stonesInState,
+            guessedStones: guessedStonesInState,
+        });
+    }
+
     renderStonePits = () => {
 
-        let stonePitComponents = stones.map((stone, index) => {
+        let stonePitComponents = this.state.stones.map((stone, index) => {
             return (
                 <StonePit
                     key={index}
-                    stone={stone} />
+                    stone={stone} 
+                    onPress_StonePit={this.onPress_StonePit}
+                    />
             );
         })
 
@@ -178,7 +214,7 @@ class Home extends React.Component {
                     guessedStones={guess.guessedStones}
                     clues={guess.clues} />
             )
-        })
+        });
 
         return guessComponents;
     }

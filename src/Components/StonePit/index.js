@@ -11,10 +11,14 @@ const StonePit = (props) => {
         {
             backgroundColor: color
         }
-    ]
+    ];
+
+    const onPress_StonePit = () => {
+        props.onPress_StonePit(props.stone);
+    }
 
     return (
-        <TouchableOpacity style={circleStyle} onPress={props.stone ? props.onPress : null} />
+        <TouchableOpacity style={circleStyle} onPress={onPress_StonePit} />
     )
 }
 
